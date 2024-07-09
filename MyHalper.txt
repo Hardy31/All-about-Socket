@@ -1,0 +1,29 @@
+Плей лист из 6 видео
+https://www.youtube.com/watch?v=Smkbp5gsOiU&list=PLbuI9mmWSoUHmoIjvoi9eRMJZ1cn7tWsO
+
+
+part 1
+https://www.youtube.com/watch?v=Smkbp5gsOiU&t=7s
+
+в Postman
+ws://localhost:8080/log
+    -> Connect
+        загорается зеленый индикатор Connected
+    -> Send
+        Сыпятся  messages
+
+
+Так как Jackson  не потдерживает LocalDataTime
+еобходимо писать кастомный сериализатор или подключить библиотеку
+    Jackson Datatype: JSR310
+    Jackson Datatype: JDK8
+    Jackson Module Parameter Names
+
+когда будеш создават mapper обрати внимание на .registerModule(new JavaTimeModule());
+Без него LocalDataTime не будет конвертироваться в Jackson
+        ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
+
+
+
+
+
