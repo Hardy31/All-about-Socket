@@ -1,4 +1,4 @@
-package ru.hardy.config.model;
+package ru.hardy.model;
 
 public record Message(String name) {
 }

@@ -24,6 +24,13 @@ ws://localhost:8080/log
         ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
 
+part 2
+https://www.youtube.com/watch?v=NO5FoCRgMyw&list=PLbuI9mmWSoUHmoIjvoi9eRMJZ1cn7tWsO&index=3
+http://localhost:8080/
 
+
+part 3
+https://www.youtube.com/watch?v=3yb-ASQFCgg&list=PLbuI9mmWSoUHmoIjvoi9eRMJZ1cn7tWsO&index=3
+http://localhost:8080/
 
 

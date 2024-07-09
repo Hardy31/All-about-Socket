@@ -1,38 +1,41 @@
-const url = "ws://localhost:8080/spring-boot-tutorial";
+const websocketUrl = "/spring-boot-tutorial"
 const topic = "/topic/greetings";
 const app = "/app/hello";
-const client = new StompJs.Client({
-    brokerURL: url
-});
+var client = null;
 
-var buttonConnect;
-var buttonDisConnect;
-var buttonSend;
-var conversation;
-var greetings;
-var formInput;
-var nameInput;
-
-client.onConnect = (frame) => {
-    setConnected(true);
-    console.log('Connected: ' + frame);
-    client.subscribe(topic, (greeting) => {
-        showGreeting(JSON.parse(greeting.body).content);
+function connect() {
+    const sock = new SockJS(websocketUrl);
+    client = Stomp.over(sock);
+    client.connect({}, ()  => {
+        setConnected(true);
+        client.subscribe(topic, payload => {
+            showMessage(JSON.parse(payload.body).content);
+        });
     });
+    console.log("Connected");
 };
 
-client.onWebSocketError = (error) => {
-    console.error('Error with websocket', error);
-};
+function disconnect() {
+    if (client !== null ) {
+        client.disconnect();
+        setConnected(false);
+        console.log("Disconnected");
+    };
+}
 
-client.onStompError = (frame) => {
-    console.error('Broker reported error: ' + frame.headers['message']);
-    console.error('Additional details: ' + frame.body);
+function showMessage(message) {
+    greetings.innerHTML += "<tr><td>" + message + "</td></tr>";
+}
+
+function sendMessage(){
+    let message = nameInput.value;
+    client.send(app, {}, JSON.stringify({'name': message}));
 };
 
 function setConnected(connected) {
     buttonConnect.disabled = connected;
     buttonDisConnect.disabled = !connected;
+    buttonSend.disabled = !connected;
     if (connected) {
         conversationDisplay.style.display = "block";
     }
@@ -40,28 +43,6 @@ function setConnected(connected) {
         conversationDisplay.style.display = "none";
     }
     greetings.innerHTML = "";
-}
-
-function connect() {
-    client.activate();
-    console.log('Connected');
-}
-
-function disconnect() {
-    client.deactivate();
-    setConnected(false);
-    console.log("Disconnected");
-}
-
-function sendName() {
-    client.publish({
-        destination: app,
-        body: JSON.stringify({'name': nameInput.value})
-    });
-}
-
-function showGreeting(message) {
-    greetings.innerHTML += "<tr><td>" + message + "</td></tr>";
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -79,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
         disconnect();
         e.preventDefault();});
     buttonSend.addEventListener("click", (e) => {
-        sendName();
+        sendMessage();
         e.preventDefault();});
     formInput.addEventListener("submit", (e) => e.preventDefault());
     setConnected(false);
