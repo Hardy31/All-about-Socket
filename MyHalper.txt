@@ -37,4 +37,9 @@ part4
 простой Socket
 https://www.youtube.com/watch?v=Vhqv6zvCgHE&t=1s
 
+path5
+STOMP Client
+https://docs.spring.io/spring-framework/reference/web/websocket/stomp/client.html
+
+
 
