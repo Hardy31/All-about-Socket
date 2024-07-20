@@ -9,13 +9,13 @@ import org.springframework.stereotype.Controller;
 @Slf4j
 public class ServerController {
 //    @MessageMapping("/process-message")
-    @MessageMapping("/process-message")
-    @SendTo("/topic/messages")
-
-
-
-    public OutgoingMessage processMessage(IncomingMessage incomingMessage) throws Exception{
-        System.out.println("Server Request  " + incomingMessage.getName());
-        return new OutgoingMessage("Server Request " + incomingMessage.getName());
-    }
+//    @MessageMapping("/process-message")
+//    @SendTo("/topic/messages")
+//
+//
+//
+//    public OutgoingMessage processMessage(IncomingMessage incomingMessage) throws Exception{
+//        System.out.println("Server Request  " + incomingMessage.getName());
+//        return new OutgoingMessage("Server Request " + incomingMessage.getName());
+//    }
 }

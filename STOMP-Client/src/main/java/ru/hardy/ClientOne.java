@@ -41,19 +41,19 @@ public class ClientOne {
         session.subscribe("/topic/messages", clientOneSessionHandler);
 
 
-
-        while (true) {
-            String text = " Client One Send /app/process-message - " + System.currentTimeMillis();
-            System.out.println(text );
-//            session.send("/app/process-message", new IncomingMessage(text)); не работает,  что то с конвертаром
-            session.send("/app/process-message", new IncomingMessage(text));
-
-            try {
-                Thread.sleep(4000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
+//
+//        while (true) {
+//            String text = " Client One Send /app/process-message - " + System.currentTimeMillis();
+//            System.out.println(text );
+////            session.send("/app/process-message", new IncomingMessage(text)); не работает,  что то с конвертаром
+//            session.send("/app/process-message", new IncomingMessage(text));
+//
+//            try {
+//                Thread.sleep(4000);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
 
 
 
