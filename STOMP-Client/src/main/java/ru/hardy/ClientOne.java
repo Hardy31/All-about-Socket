@@ -1,7 +1,9 @@
 package ru.hardy;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.converter.StringMessageConverter;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
@@ -21,13 +23,13 @@ public class ClientOne {
         WebSocketClient client = new StandardWebSocketClient();
 
         WebSocketStompClient stompClient = new WebSocketStompClient(client);
-//        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-        stompClient.setMessageConverter(new StringMessageConverter());
+        stompClient.setMessageConverter(new MappingJackson2MessageConverter()); //Замена конвертора
+//        stompClient.setMessageConverter(new StringMessageConverter());
 
         ClientOneSessionHandler clientOneSessionHandler = new ClientOneSessionHandler();
         ListenableFuture<StompSession> sessionAsync =
 //                stompClient.connect("wss://demo.piesocket.com/v3/channel_123?api_key=VCXCEuvhGcBDP7XhiJJUDvR1e1D3eiVjgZ9VRiaV&notify_self", clientOneSessionHandler);
-                stompClient.connect("ws://localhost:8082/process-message", clientOneSessionHandler);
+                stompClient.connect("ws://localhost:8082/websocket-server", clientOneSessionHandler);
         StompSession session = null;
         try {
             session = sessionAsync.get();
@@ -36,15 +38,15 @@ public class ClientOne {
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         }
-        session.subscribe("/topic/process-message", clientOneSessionHandler);
+        session.subscribe("/topic/messages", clientOneSessionHandler);
 
 
 
         while (true) {
             String text = " Client One Send /app/process-message - " + System.currentTimeMillis();
             System.out.println(text );
-//            session.send("/app/process-message", new IncomingMessage(text));
-            session.send("/app/process-message", text);
+//            session.send("/app/process-message", new IncomingMessage(text)); не работает,  что то с конвертаром
+            session.send("/app/process-message", new IncomingMessage(text));
 
             try {
                 Thread.sleep(4000);
@@ -59,10 +61,11 @@ public class ClientOne {
     }
     class ClientOneSessionHandler extends StompSessionHandlerAdapter {
 
-//        @Override
-//        public Type getPayloadType(StompHeaders headers) {
-//            return OutgoingMessage.class;
-//        }
+//          Пока закомментировал, так как он не участвует изза отклюдения строки 47
+        @Override
+        public Type getPayloadType(StompHeaders headers) {
+            return OutgoingMessage.class;
+        }
 
         @Override
         public void handleFrame(StompHeaders headers, Object payload) {

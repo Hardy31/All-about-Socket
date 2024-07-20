@@ -10,22 +10,12 @@ import org.springframework.stereotype.Controller;
 public class ServerController {
 //    @MessageMapping("/process-message")
     @MessageMapping("/process-message")
-//    @SendTo("/topic/messages")
-//    public OutgoingMessage processMessage(IncomingMessage incomingMessage) throws Exception{
-//
-//        System.out.println("Hello " + incomingMessage.getName());
-//        return new OutgoingMessage("Hello " + incomingMessage.getName());
-//    }
+    @SendTo("/topic/messages")
 
 
-//    public String processMessage(IncomingMessage incomingMessage) throws Exception{
-//        log.info(incomingMessage.toString());
-//        System.out.println("Server Read " + incomingMessage.getName());
-//        return "GGGGGGGGGGGGGGGGG";
-//    }
-    public String processMessage(String text) throws Exception{
-//        log.info(incomingMessage.toString());
-        System.out.println("Server Read " + text);
-        return "GGGGGGGGGGGGGGGGG";
+
+    public OutgoingMessage processMessage(IncomingMessage incomingMessage) throws Exception{
+        System.out.println("Server Request  " + incomingMessage.getName());
+        return new OutgoingMessage("Server Request " + incomingMessage.getName());
     }
 }

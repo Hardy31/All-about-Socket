@@ -18,8 +18,8 @@ public class WebSocketServerConfiguration  implements WebSocketMessageBrokerConf
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
 
-        registry.addEndpoint("/process-message").setAllowedOrigins("*");
 //        registry.addEndpoint("/process-message").setAllowedOrigins("*");
+        registry.addEndpoint("/websocket-server");
 
     }
 
