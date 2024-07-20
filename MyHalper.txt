@@ -43,3 +43,19 @@ https://docs.spring.io/spring-framework/reference/web/websocket/stomp/client.htm
 
 
 
+
+path6
+STOMP spring boot
+События:
+https://docs.spring.io/spring-framework/reference/web/websocket/stomp/application-context-events.html
+
+Регистрация событий:
+BrokerAvailabilityEvent
+https://www.programcreek.com/java-api-examples/?api=org.springframework.messaging.simp.broker.BrokerAvailabilityEvent
+
+Перехват
+Channel Interceptor
+https://docs.spring.io/spring-framework/reference/web/websocket/stomp/interceptors.html
+
+Инициализация WebSocket-клиента в автотестах на Java cо Spring Boot Starter WebSocket
+https://habr.com/ru/articles/773272/
