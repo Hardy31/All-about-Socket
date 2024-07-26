@@ -8,6 +8,7 @@ import org.springframework.messaging.converter.StringMessageConverter;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -16,6 +17,7 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 import java.lang.reflect.Type;
 import java.util.concurrent.ExecutionException;
 
+@Service
 public class ClientOne {
     private static final Logger log = LoggerFactory.getLogger(ClientOne.class);
 
@@ -26,10 +28,10 @@ public class ClientOne {
         stompClient.setMessageConverter(new MappingJackson2MessageConverter()); //Замена конвертора
 //        stompClient.setMessageConverter(new StringMessageConverter());
 
-        ClientOneSessionHandler clientOneSessionHandler = new ClientOneSessionHandler();
+        SessionHandler sessionHandler = new SessionHandler();
         ListenableFuture<StompSession> sessionAsync =
 //                stompClient.connect("wss://demo.piesocket.com/v3/channel_123?api_key=VCXCEuvhGcBDP7XhiJJUDvR1e1D3eiVjgZ9VRiaV&notify_self", clientOneSessionHandler);
-                stompClient.connect("ws://localhost:8082/websocket-server", clientOneSessionHandler);
+                stompClient.connect("ws://localhost:8082/websocket-server", sessionHandler);
         StompSession session = null;
         try {
             session = sessionAsync.get();
@@ -38,7 +40,7 @@ public class ClientOne {
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         }
-        session.subscribe("/topic/messages", clientOneSessionHandler);
+        session.subscribe("/topic/messages", sessionHandler);
 
 
 //
@@ -59,17 +61,17 @@ public class ClientOne {
 
         }
     }
-    class ClientOneSessionHandler extends StompSessionHandlerAdapter {
-
-//          Пока закомментировал, так как он не участвует изза отклюдения строки 47
-        @Override
-        public Type getPayloadType(StompHeaders headers) {
-            return OutgoingMessage.class;
-        }
-
-        @Override
-        public void handleFrame(StompHeaders headers, Object payload) {
-            System.out.println("Received : " + ((OutgoingMessage) payload).getContent());
-        }
-    }
+//    class ClientOneSessionHandler extends StompSessionHandlerAdapter {
+//
+////          Пока закомментировал, так как он не участвует изза отклюдения строки 47
+//        @Override
+//        public Type getPayloadType(StompHeaders headers) {
+//            return OutgoingMessage.class;
+//        }
+//
+//        @Override
+//        public void handleFrame(StompHeaders headers, Object payload) {
+//            System.out.println("Received : " + ((OutgoingMessage) payload).getContent());
+//        }
+//    }
 

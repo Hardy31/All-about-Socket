@@ -11,7 +11,7 @@ public class StompClientApplication {
         SpringApplication.run(StompClientApplication.class, args );
 
 
-        new ClientOne();
+//        new ClientOne();
 
     }
 
